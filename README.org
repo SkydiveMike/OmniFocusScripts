@@ -6,7 +6,7 @@ Many of these scripts came from other developers, and I have modified them for m
 
 * Install
 I have a parent Makefile which will install the scripts in the proper places.
-- OmniFocus2 Application Scripts :: OmniFocus uses the ==~/Library/Application\
+- OmniFocus2 Application Scripts :: OmniFocus uses the =~/Library/Application\
      Scripts/com.omnigroup.OmniFocus2/= folder to look for scripts eligible to place in
      the Toolbar. Only the scripts I most use install here.
 - Script Menu Application Scripts :: The standard macOS Script Editor uses the
