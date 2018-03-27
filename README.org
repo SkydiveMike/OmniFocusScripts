@@ -13,6 +13,11 @@ I have a parent Makefile which will install the scripts in the proper places.
      =~/Library/Scripts/Applications/OmniFocus= folder for the Scripts Menu. I install
      only other, less commonly used, scripts here.
 
+* Scripts
+** Templates
+I forked my templates script from https://github.com/lemonmade/templates. I changed mostly
+cosmetic, but I did fix some Makefile inconsistencies and a First Run Templates Folder
+finding.
 * License
 MIT - for my scripts and edits to existing scripts. Other scripts retain their original
 license.

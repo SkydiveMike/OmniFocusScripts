@@ -1,0 +1,4 @@
+[submodule "templates"]
+	path = templates
+	url = https://github.com/SkydiveMike/templates.git
+	branch = master
