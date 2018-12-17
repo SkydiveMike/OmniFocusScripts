@@ -1,7 +1,6 @@
-[submodule "templates"]
-	path = templates
-	url = https://github.com/SkydiveMike/templates.git
-	branch = master
 [submodule "OmniFocusScripts-CurtClifton"]
 	path = OmniFocusScripts-CurtClifton
 	url = git@github.com:SkydiveMike/OmniFocusScripts-CurtClifton.git
+[submodule "templates"]
+	path = templates
+	url = git@github.com:SkydiveMike/templates.git
