@@ -1,6 +1,6 @@
-build: Done-Wait.png ../CurtCliftonOmniFocusScripts/Complete\ and\ Await\ Reply.scpt
+build: Done-Wait.png ../OmniFocusScripts-CurtClifton/Complete\ and\ Await\ Reply.scpt
 	rm -f Done-Wait.scpt
-	osacompile -o Done-Wait.scpt ../CurtCliftonOmniFocusScripts/Complete\ and\ Await\ Reply.scpt
+	osacompile -o Done-Wait.scpt ../OmniFocusScripts-CurtClifton/Complete\ and\ Await\ Reply.scpt
 	../set-image.py Done-Wait.png Done-Wait.scpt
 
 install: build
