@@ -3,6 +3,7 @@ build:
 	$(MAKE) -C Done-Wait build
 	$(MAKE) -C Focus-Window build
 	$(MAKE) -C Clear-Dates build
+	$(MAKE) -C Defer build
 
 # We presume each sub-directory install has its own build as a predicate
 install:
@@ -10,3 +11,4 @@ install:
 	$(MAKE) -C Done-Wait install
 	$(MAKE) -C Focus-Window install
 	$(MAKE) -C Clear-Dates install
+	$(MAKE) -C Defer install
