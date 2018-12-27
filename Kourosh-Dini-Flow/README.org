@@ -1,0 +1,20 @@
+* OmniFocusScripts
+I got the scripts in this folder from “Creating Flow with OmniFocus 3” by Kourosh Dini.
+Brandon Pittman created the omnifocus.applescript Library, Kourosh updated the version
+here for OmniFocus 3 compatibility.
+
+I chose to pull in the GitHub version of the original (a copy I forked) and added a
+Makefile based compile and install for it. I did remove ~omnifocus.scpt~ from this
+director.
+
+See ~~../OmniFocusScripts-BrandonPittman/OmniFocus Library/~ for the original source
+librry.
+
+* Remaining Scripts
+- Makefile :: I added a Makefile to compile scripts from ~.applescript~ and to complete installs
+- ~Engage.applescript~ :: Decompiled from ~Engage.scpt~
+- ~gotolink.applescript~ :: Decompiled from ~gotolink.scpt~
+
+* License
+MIT - for my scripts and edits to existing scripts. Other scripts retain their original
+license.
