@@ -28,7 +28,7 @@
 
 
 # The name of your "Dashboard" perspective
-set dashboard_perspective to "Hotlist"
+set dashboard_perspective to "Today (Dashboard) - All"
 
 # This just initializes some variables, since we may not set them otherwise.
 set target to ""
