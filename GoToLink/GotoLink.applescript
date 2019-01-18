@@ -35,32 +35,32 @@ set target to ""
 set theItem to ""
 
 tell application "OmniFocus"
-
-  # Get the currently selected item
-
-  tell content of first document window of front document
-    try
-      set theItem to value of first item of (selected trees where class of its value is not item and class of its value is not folder)
-
-      # Only do something if there's a note in the selected item
-
-      if note of theItem is not "" then
-        if value of attribute named "link" of style of paragraph 1 of note of theItem is not "" then
-          set target to value of attribute named "link" of style of paragraph 1 of note of theItem
-        else
-          set target to note of theItem
-        end if
-      end if
-    end try
-
-  end tell
-
-  # If NO item is selected, return to the Hotlist context. This
-  # provides an easy way to switch back and forth between the
-  # "dashboard" list using the same hotkey.
-
-  if theItem is "" then tell the default document to tell the front document window to set perspective name to dashboard_perspective
-
+	
+	# Get the currently selected item
+	
+	tell content of first document window of front document
+		try
+			set theItem to value of first item of (selected trees where class of its value is not item and class of its value is not folder)
+			
+			# Only do something if there's a note in the selected item
+			
+			if note of theItem is not "" then
+				if value of attribute named "link" of style of paragraph 1 of note of theItem is not "" then
+					set target to value of attribute named "link" of style of paragraph 1 of note of theItem
+				else
+					set target to note of theItem
+				end if
+			end if
+		end try
+		
+	end tell
+	
+	# If NO item is selected, return to the Hotlist context. This
+	# provides an easy way to switch back and forth between the
+	# "dashboard" list using the same hotkey.
+	
+	if theItem is "" then tell the default document to tell the front document window to set perspective name to dashboard_perspective
+	
 end tell
 
 # If the note begins with the word "App:" then we can assume anything
@@ -70,13 +70,19 @@ end tell
 # simply ignored.
 
 if target begins with "App:" then
-
-  set target to text 6 thru -1 of target as string
-
-  tell application target to activate
-
+	
+	set target to text 6 thru -1 of target as string
+	
+	tell application target to activate
+	
 else if target contains "://" then
-
-  do shell script "open " & target
-
+	
+	do shell script "open " & target
+	
+	if target begins with "omnifocus:///perspective" then
+		tell application "Keyboard Maestro Engine"
+			do script "Default Window Look"
+		end tell
+	end if
+	
 end if
