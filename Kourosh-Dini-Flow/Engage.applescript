@@ -16,6 +16,7 @@ on run
 				if class of _sel is project then
 					set duplicatedTask to make new task with properties {name:"Develop: " & name of _sel, flagged:false} at end of tasks of LandS
 					tell O to deferDaily(duplicatedTask)
+					tell O to setContext(duplicatedTask, "Anywhere")
 					set note of duplicatedTask to "omnifocus:///task/" & id of _sel
 				else
 					display notification "\"" & name of _sel & "\"" & " is not a project."
