@@ -77,12 +77,18 @@ if target begins with "App:" then
 	
 else if target contains "://" then
 	
-	do shell script "open " & target
-	
 	if target begins with "omnifocus:///perspective" then
+		set target to text 26 thru -1 of target as string
+		tell application "OmniFocus"
+			tell default document
+				make new document window with properties {perspective name:target}
+			end tell
+		end tell
 		tell application "Keyboard Maestro Engine"
 			do script "Default Window Look"
 		end tell
+	else
+		do shell script "open " & target
 	end if
 	
 end if
