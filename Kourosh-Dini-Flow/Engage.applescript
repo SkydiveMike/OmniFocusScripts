@@ -10,7 +10,7 @@ on run
 	set sel to selectedItems() of O
 	tell application "OmniFocus"
 		tell default document
-			set LandS to findProject("Engaged (Max 3)") of O
+			set LandS to findProject("Engaged (Max 3/Day)") of O
 			
 			repeat with _sel in sel
 				if class of _sel is project then
