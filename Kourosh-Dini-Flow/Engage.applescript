@@ -23,6 +23,7 @@ on run
 				end if
 			end repeat
 			
+			tell application "OmniFocus" to tell default document to make new document window
 			tell O to openPerspective("Navigation")
 		end tell
 	end tell
