@@ -5,4 +5,4 @@ build: Focus-Window.png ../OmniFocusScripts-dbyler/Focus\ in\ New\ Window.apples
 
 install: build
 	rm -f ~/Library/Application\ Scripts/com.omnigroup.OmniFocus3/Focus-Window.scpt
-	cp Focus-Window.scpt ~/Library/Application\ Scripts/com.omnigroup.OmniFocus3/Focus-Window.scpt
+	ditto --rsrc  --noqtn Focus-Window.scpt ~/Library/Application\ Scripts/com.omnigroup.OmniFocus3/Focus-Window.scpt

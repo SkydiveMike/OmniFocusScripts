@@ -9,5 +9,5 @@ build: Defer-Today.png Defer-Tomorrow.png ../OmniFocusScripts-dbyler/Today.apple
 install: build
 	rm -f ~/Library/Application\ Scripts/com.omnigroup.OmniFocus3/Defer-Today.scpt
 	rm -f ~/Library/Application\ Scripts/com.omnigroup.OmniFocus3/Defer-Tomorrow.scpt
-	cp Defer-Today.scpt ~/Library/Application\ Scripts/com.omnigroup.OmniFocus3/Defer-Today.scpt
-	cp Defer-Tomorrow.scpt ~/Library/Application\ Scripts/com.omnigroup.OmniFocus3/Defer-Tomorrow.scpt
+	ditto --rsrc  --noqtn Defer-Today.scpt ~/Library/Application\ Scripts/com.omnigroup.OmniFocus3/Defer-Today.scpt
+	ditto --rsrc  --noqtn Defer-Tomorrow.scpt ~/Library/Application\ Scripts/com.omnigroup.OmniFocus3/Defer-Tomorrow.scpt

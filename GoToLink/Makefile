@@ -5,4 +5,4 @@ build: GoLinkIcon.png GotoLink.applescript
 
 install: build
 	rm -f ~/Library/Application\ Scripts/com.omnigroup.OmniFocus3/GotoLink.scpt
-	cp GotoLink.scpt ~/Library/Application\ Scripts/com.omnigroup.OmniFocus3/
+	ditto --rsrc  --noqtn GotoLink.scpt ~/Library/Application\ Scripts/com.omnigroup.OmniFocus3/

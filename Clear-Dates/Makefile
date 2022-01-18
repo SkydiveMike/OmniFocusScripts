@@ -5,4 +5,4 @@ build: Clear-Dates.png ../OmniFocusScripts-dbyler/Clear\ Dates.applescript
 
 install: build
 	rm -f ~/Library/Application\ Scripts/com.omnigroup.OmniFocus3/Clear-Dates.scpt
-	cp Clear-Dates.scpt ~/Library/Application\ Scripts/com.omnigroup.OmniFocus3/Clear-Dates.scpt
+	ditto --rsrc  --noqtn Clear-Dates.scpt ~/Library/Application\ Scripts/com.omnigroup.OmniFocus3/Clear-Dates.scpt
