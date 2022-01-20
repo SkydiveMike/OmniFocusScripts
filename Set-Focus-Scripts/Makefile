@@ -5,4 +5,7 @@ build: ./Set-Focus-to-Exclude-Someday-Maybe.applescript ./Set-Focus-to-Blue.appl
 	osacompile -o ./Set-Focus-to-Exclude-Someday-Maybe.scpt ./Set-Focus-to-Exclude-Someday-Maybe.applescript
 
 install: build
+	@echo ""
+	@echo "==== Focus Scripts ===="
 	@echo "No install for these scripts; Keyboard Maestro calls them directly from this location"
+	@echo ""
