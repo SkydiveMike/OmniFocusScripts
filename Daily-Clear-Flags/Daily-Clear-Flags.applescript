@@ -41,187 +41,197 @@ property specialFlagsPerspective : "DR-Nightly-Clear-Flags"
 property DLOG_TARGETS : {"/Users/mlm/Library/Logs/OmniFocus-Automation.log"}
 
 on clearFlags()
-  my dlog("Beginning Daily Flag Clearing")
-  -- Get Perspective Window and from that the list of Tasks to Clear Flags
-  tell application "OmniFocus"
-    set needToClose to false
-    tell default document
-      set WindowList to every document window whose name is specialFlagsPerspective
-    end tell
-    set numWindows to length of WindowList
-    if numWindows ≤ 0 then
-      tell default document
-        make new document window with properties {perspective name:specialFlagsPerspective} at end of document windows
-        set perspectiveWindow to front document window of front document of application "OmniFocus"
-        set perspectiveWindowID to id of front document window
-      end tell
-      -- If we have to open a new Perspective Window, track that so we can close it
-      set needToClose to true
-    else
-      set perspectiveWindow to first item of WindowList
-      set perspectiveWindowID to id of first item of WindowList
-    end if
-    --  processClearFlagsTasks is every task in the specialFlagsPerspective Window
-    set processClearFlagsTasks to leaves of content of perspectiveWindow
-  end tell
-  --Perform clear flags action
-  set successTot to 0 -- Count the number of successes
-  set skippedBecauseOfDate to 0 -- Count the number skipped because of modification date (newer than 12 hours)
-  if length of processClearFlagsTasks > 0 then
-    -- processClearFlagsTasks helps with English pluralization
-    if length of processClearFlagsTasks > 1 then
-      set processItemNum to "s"
-    else
-      set processItemNum to ""
-    end if
-    set autosave to false
-    -- Loop the items and process
-    repeat with _thisItem in processClearFlagsTasks
-      set thisItem to value of _thisItem
-      tell application "OmniFocus"
-        tell default document
-          set modDate to modification date of thisItem
-        end tell
-      end tell
-      if modDate > ((current date) - (12 * hours)) then
-        set skippedBecauseOfDate to skippedBecauseOfDate + 1
-      else
-        set succeeded to my clearFlag(thisItem)
-        if succeeded then set successTot to successTot + 1
-      end if
-    end repeat
-    set autosave to true
-    -- close window if we opened it
-    if needToClose then
-      tell perspectiveWindow to close
-    end if
-    -- alertItemNum helps with English pluralization
-    if successTot = 1 then
-      set alertItemNum to ""
-    else
-      set alertItemNum to "s"
-    end if
-    -- skippedBecauseOfDateNum helps with English pluralization
-    if skippedBecauseOfDate = 1 then
-      set skippedBecauseOfDateNum to ""
-    else
-      set skippedBecauseOfDateNum to "s"
-    end if
-    -- Build Alert dialog
-    set alertText to "Processed " & length of processClearFlagsTasks & " Flagged Task" & processItemNum & ". " as string
-    set alertText to alertText & "Successfully unflagged " & successTot & " Task" & alertItemNum & ". " as string
-    set alertText to alertText & "Skipped " & skippedBecauseOfDate & " Recently Modified Task" & skippedBecauseOfDateNum & "." as string
-    my dlog(alertText)
-  end if
-  return alertText
+	set alertText to "Not yet set"
+	my dlog("=============================================")
+	my dlog("Beginning Daily Flag Clearing")
+	-- Get Perspective Window and from that the list of Tasks to Clear Flags
+	tell application "OmniFocus"
+		set needToClose to false
+		tell default document
+			set WindowList to every document window whose name is specialFlagsPerspective
+		end tell
+		set numWindows to length of WindowList
+		if numWindows ≤ 0 then
+			tell default document
+				make new document window with properties {perspective name:specialFlagsPerspective} at end of document windows
+				set perspectiveWindow to front document window of front document of application "OmniFocus"
+				set perspectiveWindowID to id of front document window
+			end tell
+			-- If we have to open a new Perspective Window, track that so we can close it
+			set needToClose to true
+		else
+			set perspectiveWindow to first item of WindowList
+			set perspectiveWindowID to id of first item of WindowList
+		end if
+		--  processClearFlagsTasks is every task in the specialFlagsPerspective Window
+		set processClearFlagsTasks to leaves of content of perspectiveWindow
+	end tell
+	--Perform clear flags action
+	set successTot to 0 -- Count the number of successes
+	set skippedBecauseOfDate to 0 -- Count the number skipped because of modification date (newer than 12 hours)
+	if length of processClearFlagsTasks > 0 then
+		-- processClearFlagsTasks helps with English pluralization
+		if length of processClearFlagsTasks > 1 then
+			set processItemNum to "s"
+		else
+			set processItemNum to ""
+		end if
+		set autosave to false
+		-- Loop the items and process
+		repeat with _thisItem in processClearFlagsTasks
+			set thisItem to value of _thisItem
+			my dlog("------")
+			my dlog("thisItem = " & name of thisItem as string)
+			tell application "OmniFocus"
+				tell default document
+					set modDate to modification date of thisItem
+				end tell
+			end tell
+			if modDate > ((current date) - (12 * hours)) then
+				my dlog("Skipping thisItem with mod date: " & modDate as string)
+				set skippedBecauseOfDate to skippedBecauseOfDate + 1
+			else
+				set succeeded to my clearFlag(thisItem)
+				my dlog("Attempt to clear thisIterm: " & succeeded as string)
+				if succeeded then set successTot to successTot + 1
+			end if
+		end repeat
+		my dlog("------")
+		set autosave to true
+		-- close window if we opened it
+		if needToClose then
+			tell perspectiveWindow to close
+		end if
+		-- alertItemNum helps with English pluralization
+		if successTot = 1 then
+			set alertItemNum to ""
+		else
+			set alertItemNum to "s"
+		end if
+		-- skippedBecauseOfDateNum helps with English pluralization
+		if skippedBecauseOfDate = 1 then
+			set skippedBecauseOfDateNum to ""
+		else
+			set skippedBecauseOfDateNum to "s"
+		end if
+		-- Build Alert dialog
+		set alertText to "Processed " & length of processClearFlagsTasks & " Flagged Task" & processItemNum & ". " as string
+		set alertText to alertText & "Successfully unflagged " & successTot & " Task" & alertItemNum & ". " as string
+		set alertText to alertText & "Skipped " & skippedBecauseOfDate & " Recently Modified Task" & skippedBecauseOfDateNum & "." as string
+		my dlog(alertText)
+	else
+		set alertText to "No Items to Process " as string
+		my dlog(alertText)
+	end if
+	return alertText
 end clearFlags
 
 
 on interactiveNotify(alertText)
-  set alertName to "General"
-  set alertTitle to "Daily Unflag Process"
-  my notify(alertName, alertTitle, alertText)
+	set alertName to "General"
+	set alertTitle to "Daily Unflag Process"
+	my notify(alertName, alertTitle, alertText)
 end interactiveNotify
 
 on clearFlag(selectedItem)
-  set success to false
-  tell application "OmniFocus"
-    tell default document
-      tell application "OmniFocus" to tell default document to set nameOfThisItem to name of selectedItem
-      tell O
-        try
-          setFlagged(selectedItem, false)
-          set success to true
-          my dlog({"Unflagging: ", nameOfThisItem, ", Successful:", success})
-        on error errStr number errorNumber
-          my dlog({"Unflagging: ", nameOfThisItem, ", Successful:", success, "Error Number:", errorNumber, "Error String:", errStr})
-        end try
-      end tell
-    end tell
-  end tell
-  return success
+	set success to false
+	tell application "OmniFocus"
+		tell default document
+			tell application "OmniFocus" to tell default document to set nameOfThisItem to name of selectedItem
+			tell O
+				try
+					setFlagged(selectedItem, false)
+					set success to true
+					my dlog({"Unflagging: ", nameOfThisItem, ", Successful:", success})
+				on error errStr number errorNumber
+					my dlog({"Unflagging: ", nameOfThisItem, ", Successful:", success, "Error Number:", errorNumber, "Error String:", errStr})
+				end try
+			end tell
+		end tell
+	end tell
+	return success
 end clearFlag
 
 on startToday(selectedItem, currDate)
-  set success to false
-  tell application "OmniFocus"
-    try
-      set originalStartDateTime to defer date of selectedItem
-      if (originalStartDateTime is not missing value) then
-        --Set new start date with original start time
-        set defer date of selectedItem to (currDate + (time of originalStartDateTime))
-        set success to true
-      else
-        set defer date of selectedItem to (currDate + (startTime * hours))
-        set success to true
-      end if
-    end try
-  end tell
-  return success
+	set success to false
+	tell application "OmniFocus"
+		try
+			set originalStartDateTime to defer date of selectedItem
+			if (originalStartDateTime is not missing value) then
+				--Set new start date with original start time
+				set defer date of selectedItem to (currDate + (time of originalStartDateTime))
+				set success to true
+			else
+				set defer date of selectedItem to (currDate + (startTime * hours))
+				set success to true
+			end if
+		end try
+	end tell
+	return success
 end startToday
 
 
 
 (* Begin notification code *)
 on notify(alertName, alertTitle, alertText)
-  --Call this to show a normal notification
-  my notifyMain(alertName, alertTitle, alertText, false)
+	--Call this to show a normal notification
+	my notifyMain(alertName, alertTitle, alertText, false)
 end notify
 
 on notifyWithSticky(alertName, alertTitle, alertText)
-  --Show a sticky Growl notification
-  my notifyMain(alertName, alertTitle, alertText, true)
+	--Show a sticky Growl notification
+	my notifyMain(alertName, alertTitle, alertText, true)
 end notifyWithSticky
 
 on IsGrowlRunning()
-  tell application "System Events" to set GrowlRunning to (count of (every process where creator type is "GRRR")) > 0
-  return GrowlRunning
+	tell application "System Events" to set GrowlRunning to (count of (every process where creator type is "GRRR")) > 0
+	return GrowlRunning
 end IsGrowlRunning
 
 on notifyWithGrowl(growlHelperAppName, alertName, alertTitle, alertText, useSticky)
-  tell my application growlHelperAppName
-    «event register» given «class appl»:growlAppName, «class anot»:allNotifications, «class dnot»:enabledNotifications, «class iapp»:iconApplication
-    «event notifygr» given «class name»:alertName, «class titl»:alertTitle, «class appl»:growlAppName, «class desc»:alertText
-  end tell
+	tell my application growlHelperAppName
+		«event register» given «class appl»:growlAppName, «class anot»:allNotifications, «class dnot»:enabledNotifications, «class iapp»:iconApplication
+		«event notifygr» given «class name»:alertName, «class titl»:alertTitle, «class appl»:growlAppName, «class desc»:alertText
+	end tell
 end notifyWithGrowl
 
 on NotifyWithoutGrowl(alertText, alertTitle)
-  display notification alertText with title alertTitle
+	display notification alertText with title alertTitle
 end NotifyWithoutGrowl
 
 on notifyMain(alertName, alertTitle, alertText, useSticky)
-  set GrowlRunning to my IsGrowlRunning() --check if Growl is running...
-  if not GrowlRunning then --if Growl isn't running...
-    set GrowlPath to "" --check to see if Growl is installed...
-    try
-      tell application "Finder" to tell (application file id "GRRR") to set strGrowlPath to POSIX path of (its container as alias) & name
-    end try
-    if GrowlPath is not "" then --...try to launch if so...
-      do shell script "open " & strGrowlPath & " > /dev/null 2>&1 &"
-      delay 0.5
-      set GrowlRunning to my IsGrowlRunning()
-    end if
-  end if
-  if GrowlRunning then
-    tell application "Finder" to tell (application file id "GRRR") to set growlHelperAppName to name
-    notifyWithGrowl(growlHelperAppName, alertName, alertTitle, alertText, useSticky)
-  else
-    NotifyWithoutGrowl(alertText, alertTitle)
-  end if
+	set GrowlRunning to my IsGrowlRunning() --check if Growl is running...
+	if not GrowlRunning then --if Growl isn't running...
+		set GrowlPath to "" --check to see if Growl is installed...
+		try
+			tell application "Finder" to tell (application file id "GRRR") to set strGrowlPath to POSIX path of (its container as alias) & name
+		end try
+		if GrowlPath is not "" then --...try to launch if so...
+			do shell script "open " & strGrowlPath & " > /dev/null 2>&1 &"
+			delay 0.5
+			set GrowlRunning to my IsGrowlRunning()
+		end if
+	end if
+	if GrowlRunning then
+		tell application "Finder" to tell (application file id "GRRR") to set growlHelperAppName to name
+		notifyWithGrowl(growlHelperAppName, alertName, alertTitle, alertText, useSticky)
+	else
+		NotifyWithoutGrowl(alertText, alertTitle)
+	end if
 end notifyMain
 (* end notification code *)
 
 on hazelProcessFile(theFile, inputAttributes)
-  -- ‘theFile’ is an alias to the file that matched.
-  -- ‘inputAttributes’ is an AppleScript list of the values of any attributes you told Hazel to pass in.
-  -- Be sure to return true or false (or optionally a record) to indicate whether the file passes this script.
-  --  my dlog({"Processing: ", theFile})
-  clearFlags()
-  return
+	-- ‘theFile’ is an alias to the file that matched.
+	-- ‘inputAttributes’ is an AppleScript list of the values of any attributes you told Hazel to pass in.
+	-- Be sure to return true or false (or optionally a record) to indicate whether the file passes this script.
+	--  my dlog({"Processing: ", theFile})
+	clearFlags()
+	return
 end hazelProcessFile
 
 on main()
-  my interactiveNotify(my clearFlags())
+	my interactiveNotify(my clearFlags())
 end main
 
 #########################
@@ -253,76 +263,76 @@ end main
 #     output string by concatenation yourself, you'd lose the benefit of this subroutine's ability to derive
 #     readable text representations even of objects that can't simply be converted with `as text`.
 on dlog(anyObjOrListOfObjects)
-  try
-    if length of DLOG_TARGETS is 0 then return
-  on error
-    return
-  end try
-  # The following tries hard to derive a readable representation from the input object(s).
-  if class of anyObjOrListOfObjects is not list then set anyObjOrListOfObjects to {anyObjOrListOfObjects}
-  local lst, i, txt, errMsg, orgTids, oName, oId, prefix, logTarget, txtCombined, prefixTime, prefixDateTime
-  set lst to {}
-  repeat with anyObj in anyObjOrListOfObjects
-    set txt to ""
-    repeat with i from 1 to 2
-      try
-        if i is 1 then
-          if class of anyObj is list then
-            set {orgTids, AppleScript's text item delimiters} to {AppleScript's text item delimiters, {", "}} # '
-            set txt to ("{" & anyObj as string) & "}"
-            set AppleScript's text item delimiters to orgTids # '
-          else
-            set txt to anyObj as string
-          end if
-        else
-          set txt to properties of anyObj as string
-        end if
-      on error errMsg
-        # Trick for records and record-*like* objects:
-        # We exploit the fact that the error message contains the desired string representation of the record, so we extract it from there. This (still) works as of AS 2.3 (OS X 10.9).
-        try
-          set txt to do shell script "egrep -o '\\{.*\\}' <<< " & quoted form of errMsg
-        end try
-      end try
-      if txt is not "" then exit repeat
-    end repeat
-    set prefix to ""
-    if class of anyObj is not in {text, integer, real, boolean, date, list, record} and anyObj is not missing value then
-      set prefix to "[" & class of anyObj
-      set oName to ""
-      set oId to ""
-      try
-        set oName to name of anyObj
-        if oName is not missing value then set prefix to prefix & " name=\"" & oName & "\""
-      end try
-      try
-        set oId to id of anyObj
-        if oId is not missing value then set prefix to prefix & " id=" & oId
-      end try
-      set prefix to prefix & "] "
-      set txt to prefix & txt
-    end if
-    set lst to lst & txt
-  end repeat
-  set {orgTids, AppleScript's text item delimiters} to {AppleScript's text item delimiters, {" "}} # '
-  set txtCombined to lst as string
-  set prefixTime to "[" & time string of (current date) & "] "
-  set prefixDateTime to "[" & short date string of (current date) & " " & text 2 thru -1 of prefixTime
-  set AppleScript's text item delimiters to orgTids # '
-  # Log the result to every target specified.
-  repeat with logTarget in DLOG_TARGETS
-    if contents of logTarget is "log" then
-      log prefixTime & txtCombined
-    else if contents of logTarget is "alert" then
-      display alert prefixTime & txtCombined
-    else if contents of logTarget is "syslog" then
-      do shell script "logger -t " & quoted form of ("AS: " & (name of me)) & " " & quoted form of txtCombined
-    else # assumed to be a POSIX file path to *append* to.
-      set fpath to contents of logTarget
-      if fpath starts with "~/" then set fpath to "$HOME/" & text 3 thru -1 of fpath
-      do shell script "printf '%s\\n' " & quoted form of (prefixDateTime & txtCombined) & " >> \"" & fpath & "\""
-    end if
-  end repeat
+	try
+		if length of DLOG_TARGETS is 0 then return
+	on error
+		return
+	end try
+	# The following tries hard to derive a readable representation from the input object(s).
+	if class of anyObjOrListOfObjects is not list then set anyObjOrListOfObjects to {anyObjOrListOfObjects}
+	local lst, i, txt, errMsg, orgTids, oName, oId, prefix, logTarget, txtCombined, prefixTime, prefixDateTime
+	set lst to {}
+	repeat with anyObj in anyObjOrListOfObjects
+		set txt to ""
+		repeat with i from 1 to 2
+			try
+				if i is 1 then
+					if class of anyObj is list then
+						set {orgTids, AppleScript's text item delimiters} to {AppleScript's text item delimiters, {", "}} # '
+						set txt to ("{" & anyObj as string) & "}"
+						set AppleScript's text item delimiters to orgTids # '
+					else
+						set txt to anyObj as string
+					end if
+				else
+					set txt to properties of anyObj as string
+				end if
+			on error errMsg
+				# Trick for records and record-*like* objects:
+				# We exploit the fact that the error message contains the desired string representation of the record, so we extract it from there. This (still) works as of AS 2.3 (OS X 10.9).
+				try
+					set txt to do shell script "egrep -o '\\{.*\\}' <<< " & quoted form of errMsg
+				end try
+			end try
+			if txt is not "" then exit repeat
+		end repeat
+		set prefix to ""
+		if class of anyObj is not in {text, integer, real, boolean, date, list, record} and anyObj is not missing value then
+			set prefix to "[" & class of anyObj
+			set oName to ""
+			set oId to ""
+			try
+				set oName to name of anyObj
+				if oName is not missing value then set prefix to prefix & " name=\"" & oName & "\""
+			end try
+			try
+				set oId to id of anyObj
+				if oId is not missing value then set prefix to prefix & " id=" & oId
+			end try
+			set prefix to prefix & "] "
+			set txt to prefix & txt
+		end if
+		set lst to lst & txt
+	end repeat
+	set {orgTids, AppleScript's text item delimiters} to {AppleScript's text item delimiters, {" "}} # '
+	set txtCombined to lst as string
+	set prefixTime to "[" & time string of (current date) & "] "
+	set prefixDateTime to "[" & short date string of (current date) & " " & text 2 thru -1 of prefixTime
+	set AppleScript's text item delimiters to orgTids # '
+	# Log the result to every target specified.
+	repeat with logTarget in DLOG_TARGETS
+		if contents of logTarget is "log" then
+			log prefixTime & txtCombined
+		else if contents of logTarget is "alert" then
+			display alert prefixTime & txtCombined
+		else if contents of logTarget is "syslog" then
+			do shell script "logger -t " & quoted form of ("AS: " & (name of me)) & " " & quoted form of txtCombined
+		else # assumed to be a POSIX file path to *append* to.
+			set fpath to contents of logTarget
+			if fpath starts with "~/" then set fpath to "$HOME/" & text 3 thru -1 of fpath
+			do shell script "printf '%s\\n' " & quoted form of (prefixDateTime & txtCombined) & " >> \"" & fpath & "\""
+		end if
+	end repeat
 end dlog
 
 main()
