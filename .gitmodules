@@ -1,6 +1,3 @@
-[submodule "OmniFocusScripts-dbyler"]
-  path = OmniFocusScripts-dbyler
-  url = git@github.com:SkydiveMike/OmniFocusScripts-dbyler.git
 [submodule "omnifocus-perspective-icons"]
   path = omnifocus-perspective-icons
   url = https://github.com/deaghean/omnifocus-perspective-icons.git
