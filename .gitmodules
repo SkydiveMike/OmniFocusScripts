@@ -1,9 +1,6 @@
 [submodule "OmniFocusScripts-CurtClifton"]
 	path = OmniFocusScripts-CurtClifton
 	url = git@github.com:SkydiveMike/OmniFocusScripts-CurtClifton.git
-[submodule "templates"]
-	path = templates
-	url = git@github.com:SkydiveMike/templates.git
 [submodule "OmniFocusScripts-dbyler"]
 	path = OmniFocusScripts-dbyler
 	url = git@github.com:SkydiveMike/OmniFocusScripts-dbyler.git
