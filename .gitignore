@@ -1,0 +1,9 @@
+node_modules
+*Gruntfile*
+*Gulpfile*
+package.json
+doc
+out
+jsdoc.json
+*Script\ Debugger.plist
+/OmniFocus Library/omnifocus.scpt
