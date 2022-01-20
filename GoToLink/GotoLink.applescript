@@ -76,7 +76,7 @@ if target begins with "App:" then
 	tell application target to activate
 	
 else if target contains "://" then
-	
+
 	if target begins with "omnifocus:///perspective" then
 		set target to text 26 thru -1 of target as string
 		tell application "OmniFocus"
@@ -88,7 +88,7 @@ else if target contains "://" then
 			do script "Default Window Look"
 		end tell
 	else
-		do shell script "open " & target
+		do shell script "open " & "\"" & target & "\""
 	end if
 	
 end if
